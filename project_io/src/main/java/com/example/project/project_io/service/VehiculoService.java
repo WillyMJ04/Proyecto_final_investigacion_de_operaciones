@@ -1,8 +1,8 @@
 package com.example.project.project_io.service;
 
 import com.example.project.project_io.dtos.VehiculoDTO;
-import com.example.project.project_io.vo.VehiculoVO;
 import com.example.project.project_io.entities.Vehiculo;
+import com.example.project.project_io.vo.VehiculoVO;
 import com.example.project.project_io.repository.VehiculoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

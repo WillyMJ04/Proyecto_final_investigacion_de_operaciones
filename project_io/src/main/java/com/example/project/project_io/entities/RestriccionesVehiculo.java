@@ -1,9 +1,8 @@
 package com.example.project.project_io.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-
 import java.io.Serializable;
 
 @Data
@@ -18,14 +17,15 @@ public class RestriccionesVehiculo implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @NotBlank // Asegura que no sea nulo ni vacío
     @Column(name = "restriccion_paradas")
     private String restriccionParadas;
 
+    @NotBlank // Asegura que no sea nulo ni vacío
     @Column(name = "restriccion_visitas")
     private String restriccionVisitas;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_vehiculo", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "id_vehiculo", referencedColumnName = "id", nullable = false) // Asegura que la relación no sea nula
     private Vehiculo vehiculo;
 }

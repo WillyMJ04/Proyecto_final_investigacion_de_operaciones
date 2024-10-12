@@ -4,12 +4,13 @@ import com.example.project.project_io.dtos.ClienteDTO;
 import com.example.project.project_io.service.ClienteService;
 import com.example.project.project_io.vo.ClienteVO;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull; 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Validated
 @RestController
@@ -21,32 +22,36 @@ public class ClienteController {
 
     // Método para guardar un cliente
     @PostMapping
-    public String save(@Valid @RequestBody ClienteVO vO) {
-        return clienteService.save(vO).toString();
+    public ResponseEntity<String> save(@Valid @RequestBody ClienteVO vO) {
+        return ResponseEntity.ok(clienteService.save(vO).toString());
     }
 
     // Método para eliminar un cliente por ID
     @DeleteMapping("/{id}")
-    public void delete(@Valid @NotNull @PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@Valid @NotNull @PathVariable("id") Long id) {
         clienteService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     // Método para actualizar un cliente
     @PutMapping("/{id}")
-    public void update(@Valid @NotNull @PathVariable("id") Long id,
-                       @Valid @RequestBody ClienteVO vO) {
+    public ResponseEntity<Void> update(@Valid @NotNull @PathVariable("id") Long id,
+                                       @Valid @RequestBody ClienteVO vO) {
         clienteService.update(id, vO);
+        return ResponseEntity.noContent().build();
     }
 
     // Método para obtener un cliente por ID
     @GetMapping("/{id}")
-    public ClienteDTO getById(@Valid @NotNull @PathVariable("id") Long id) {
-        return clienteService.getById(id);
+    public ResponseEntity<ClienteDTO> getById(@Valid @NotNull @PathVariable("id") Long id) {
+        ClienteDTO cliente = clienteService.getById(id);
+        return ResponseEntity.ok(cliente);
     }
 
-    // Método para obtener todos los clientes con paginación
-    @GetMapping
-    public Page<ClienteDTO> query(Pageable pageable) {
-        return clienteService.query(pageable);
+    // Método para obtener todos los clientes sin paginación (devuelve una lista)
+    @GetMapping("/todos")
+    public ResponseEntity<List<ClienteDTO>> getAllClientes() {
+        List<ClienteDTO> clientes = clienteService.getAllClientes();
+        return ResponseEntity.ok(clientes);
     }
 }

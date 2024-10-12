@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity; // Import agregado
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,28 +21,31 @@ public class RutaGoogleMapsController {
     private RutaGoogleMapsService rutaGoogleMapsService;
 
     @PostMapping
-    public String save(@Valid @RequestBody RutaGoogleMapsVO vO) {
-        return rutaGoogleMapsService.save(vO).toString();
+    public ResponseEntity<String> save(@Valid @RequestBody RutaGoogleMapsVO vO) { // Cambiado a ResponseEntity
+        return ResponseEntity.ok(rutaGoogleMapsService.save(vO).toString()); // Cambiado a ResponseEntity
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@Valid @NotNull @PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@Valid @NotNull @PathVariable("id") Long id) { // Cambiado a ResponseEntity
         rutaGoogleMapsService.delete(id);
+        return ResponseEntity.noContent().build(); // Cambiado a ResponseEntity
     }
 
     @PutMapping("/{id}")
-    public void update(@Valid @NotNull @PathVariable("id") Long id,
-                       @Valid @RequestBody RutaGoogleMapsVO vO) {
+    public ResponseEntity<Void> update(@Valid @NotNull @PathVariable("id") Long id,
+                                        @Valid @RequestBody RutaGoogleMapsVO vO) { // Cambiado a ResponseEntity
         rutaGoogleMapsService.update(id, vO);
+        return ResponseEntity.noContent().build(); // Cambiado a ResponseEntity
     }
 
     @GetMapping("/{id}")
-    public RutaGoogleMapsDTO getById(@Valid @NotNull @PathVariable("id") Long id) {
-        return rutaGoogleMapsService.getById(id);
+    public ResponseEntity<RutaGoogleMapsDTO> getById(@Valid @NotNull @PathVariable("id") Long id) { // Cambiado a ResponseEntity
+        RutaGoogleMapsDTO ruta = rutaGoogleMapsService.getById(id);
+        return ResponseEntity.ok(ruta); // Cambiado a ResponseEntity
     }
 
     @GetMapping
-    public Page<RutaGoogleMapsDTO> query(Pageable pageable) {
-        return rutaGoogleMapsService.query(pageable);
+    public ResponseEntity<Page<RutaGoogleMapsDTO>> query(Pageable pageable) { // Cambiado a ResponseEntity
+        return ResponseEntity.ok(rutaGoogleMapsService.query(pageable)); // Cambiado a ResponseEntity
     }
 }

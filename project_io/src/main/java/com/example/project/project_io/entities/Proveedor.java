@@ -1,9 +1,12 @@
 package com.example.project.project_io.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -15,28 +18,33 @@ public class Proveedor implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_proveedor", nullable = false)
+    @Column(name = "id", nullable = false)
     private Long idProveedor;
 
-    @Column(name = "nombre_proveedor")
+    @NotBlank // Asegura que no sea nulo ni vacío
+    @Column(name = "nombre_proveedor", nullable = false)
     private String nombreProveedor;
 
+    @NotBlank // Asegura que no sea nulo ni vacío
     @Column(name = "direccion_proveedor")
     private String direccionProveedor;
 
     @Column(name = "longitud")
-    private String longitud;
+    private String longitud;  // Cambiado a BigDecimal para representar coordenadas correctamente
 
     @Column(name = "latitud")
-    private String latitud;
+    private String latitud;   // Cambiado a BigDecimal para representar coordenadas correctamente
 
-    @Column(name = "estado")
+    @NotNull // Asegura que el estado no sea nulo
+    @Column(name = "estado", nullable = false)
     private Integer estado;
 
-    @Column(name = "usuario_creo")
+    @NotBlank // Asegura que no sea nulo ni vacío
+    @Column(name = "usuario_creo", nullable = false)
     private String usuarioCreo;
 
-    @Column(name = "fecha_creo")
+    @NotNull // Asegura que la fecha de creación no sea nula
+    @Column(name = "fecha_creo", nullable = false)
     private LocalDateTime fechaCreo;
 
     @Column(name = "usuario_modifico")

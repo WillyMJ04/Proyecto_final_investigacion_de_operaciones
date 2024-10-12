@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity; // Import agregado
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,28 +21,31 @@ public class TipoLicenciaController {
     private TipoLicenciaService tipoLicenciaService;
 
     @PostMapping
-    public String save(@Valid @RequestBody TipoLicenciaVO vO) {
-        return tipoLicenciaService.save(vO).toString();
+    public ResponseEntity<String> save(@Valid @RequestBody TipoLicenciaVO vO) { // Cambiado a ResponseEntity
+        return ResponseEntity.ok(tipoLicenciaService.save(vO).toString()); // Cambiado a ResponseEntity
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@Valid @NotNull @PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@Valid @NotNull @PathVariable("id") Long id) { // Cambiado a ResponseEntity
         tipoLicenciaService.delete(id);
+        return ResponseEntity.noContent().build(); // Cambiado a ResponseEntity
     }
 
     @PutMapping("/{id}")
-    public void update(@Valid @NotNull @PathVariable("id") Long id,
-                       @Valid @RequestBody TipoLicenciaVO vO) {
+    public ResponseEntity<Void> update(@Valid @NotNull @PathVariable("id") Long id,
+                                        @Valid @RequestBody TipoLicenciaVO vO) { // Cambiado a ResponseEntity
         tipoLicenciaService.update(id, vO);
+        return ResponseEntity.noContent().build(); // Cambiado a ResponseEntity
     }
 
     @GetMapping("/{id}")
-    public TipoLicenciaDTO getById(@Valid @NotNull @PathVariable("id") Long id) {
-        return tipoLicenciaService.getById(id);
+    public ResponseEntity<TipoLicenciaDTO> getById(@Valid @NotNull @PathVariable("id") Long id) { // Cambiado a ResponseEntity
+        TipoLicenciaDTO tipoLicencia = tipoLicenciaService.getById(id);
+        return ResponseEntity.ok(tipoLicencia); // Cambiado a ResponseEntity
     }
 
     @GetMapping
-    public Page<TipoLicenciaDTO> query(Pageable pageable) {
-        return tipoLicenciaService.query(pageable);
+    public ResponseEntity<Page<TipoLicenciaDTO>> query(Pageable pageable) { // Cambiado a ResponseEntity
+        return ResponseEntity.ok(tipoLicenciaService.query(pageable)); // Cambiado a ResponseEntity
     }
 }

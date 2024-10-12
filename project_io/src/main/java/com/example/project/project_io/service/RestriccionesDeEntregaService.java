@@ -26,7 +26,7 @@ public class RestriccionesDeEntregaService {
     public Long save(RestriccionesDeEntregaVO vO) {
         RestriccionesDeEntrega restriccion = modelMapper.map(vO, RestriccionesDeEntrega.class);
         restriccion = restriccionesDeEntregaRepository.save(restriccion);
-        return restriccion.getIdRestriccion();
+        return restriccion.getId();
     }
 
     // Método para eliminar una restricción de entrega por ID

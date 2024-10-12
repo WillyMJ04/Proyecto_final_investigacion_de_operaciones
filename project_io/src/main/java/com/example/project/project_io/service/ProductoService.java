@@ -1,16 +1,15 @@
 package com.example.project.project_io.service;
 
 import com.example.project.project_io.dtos.ProductoDTO;
-import com.example.project.project_io.vo.ProductoVO;
-import com.example.project.project_io.vo.ProductoUpdateVO;
 import com.example.project.project_io.entities.Producto;
 import com.example.project.project_io.repository.ProductoRepository;
+import com.example.project.project_io.vo.ProductoUpdateVO;
+import com.example.project.project_io.vo.ProductoVO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,7 +24,7 @@ public class ProductoService {
     public Long save(ProductoVO vO) {
         Producto producto = modelMapper.map(vO, Producto.class);
         producto = productoRepository.save(producto);
-        return producto.getIdProducto();
+        return producto.getId();
     }
 
     public void delete(Long id) {
@@ -49,8 +48,11 @@ public class ProductoService {
                 .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
     }
 
-    public Page<ProductoDTO> query(Pageable pageable) {
-        return productoRepository.findAll(pageable)
-                .map(producto -> modelMapper.map(producto, ProductoDTO.class));
+    // Método corregido para devolver una List<ProductoDTO> en lugar de Page<ProductoDTO>
+    public List<ProductoDTO> query() {
+        return productoRepository.findAll()
+                .stream()
+                .map(producto -> modelMapper.map(producto, ProductoDTO.class))
+                .toList();
     }
 }

@@ -1,9 +1,7 @@
 package com.example.project.project_io.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -34,8 +32,7 @@ public class Conductor implements Serializable {
     @Column(name = "direccion")
     private String direccion;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_tipo_licencia", referencedColumnName = "id", nullable = false)  // Relación con TipoLicencia
+    @JoinColumn(name = "licencia_id", referencedColumnName = "id_tipo_licencia", nullable = false)
     private TipoLicencia tipoLicencia;
 }

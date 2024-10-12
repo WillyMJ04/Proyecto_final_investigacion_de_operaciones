@@ -2,7 +2,6 @@ package com.example.project.project_io.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.io.Serializable;
 
 @Data

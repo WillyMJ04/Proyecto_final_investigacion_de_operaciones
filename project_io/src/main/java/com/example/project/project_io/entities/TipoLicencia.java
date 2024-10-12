@@ -3,18 +3,14 @@ package com.example.project.project_io.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
 @Entity
 @Table(name = "tipo_licencia")
-public class TipoLicencia implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class TipoLicencia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id_tipo_licencia", nullable = false)
     private Long idTipoLicencia;
 
     @Column(name = "nombre", nullable = false)

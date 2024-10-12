@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity; // Import agregado
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,28 +21,31 @@ public class TipoVehiculoController {
     private TipoVehiculoService tipoVehiculoService;
 
     @PostMapping
-    public String save(@Valid @RequestBody TipoVehiculoVO vO) {
-        return tipoVehiculoService.save(vO).toString();
+    public ResponseEntity<String> save(@Valid @RequestBody TipoVehiculoVO vO) { // Cambiado a ResponseEntity
+        return ResponseEntity.ok(tipoVehiculoService.save(vO).toString()); // Cambiado a ResponseEntity
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@Valid @NotNull @PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@Valid @NotNull @PathVariable("id") Long id) { // Cambiado a ResponseEntity
         tipoVehiculoService.delete(id);
+        return ResponseEntity.noContent().build(); // Cambiado a ResponseEntity
     }
 
     @PutMapping("/{id}")
-    public void update(@Valid @NotNull @PathVariable("id") Long id,
-                       @Valid @RequestBody TipoVehiculoVO vO) {
+    public ResponseEntity<Void> update(@Valid @NotNull @PathVariable("id") Long id,
+                                        @Valid @RequestBody TipoVehiculoVO vO) { // Cambiado a ResponseEntity
         tipoVehiculoService.update(id, vO);
+        return ResponseEntity.noContent().build(); // Cambiado a ResponseEntity
     }
 
     @GetMapping("/{id}")
-    public TipoVehiculoDTO getById(@Valid @NotNull @PathVariable("id") Long id) {
-        return tipoVehiculoService.getById(id);
+    public ResponseEntity<TipoVehiculoDTO> getById(@Valid @NotNull @PathVariable("id") Long id) { // Cambiado a ResponseEntity
+        TipoVehiculoDTO tipoVehiculo = tipoVehiculoService.getById(id);
+        return ResponseEntity.ok(tipoVehiculo); // Cambiado a ResponseEntity
     }
 
     @GetMapping
-    public Page<TipoVehiculoDTO> query(Pageable pageable) {
-        return tipoVehiculoService.query(pageable);
+    public ResponseEntity<Page<TipoVehiculoDTO>> query(Pageable pageable) { // Cambiado a ResponseEntity
+        return ResponseEntity.ok(tipoVehiculoService.query(pageable)); // Cambiado a ResponseEntity
     }
 }

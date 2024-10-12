@@ -2,7 +2,6 @@ package com.example.project.project_io.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -15,11 +14,20 @@ public class Pedido implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)  // Aquí debe coincidir con la columna a la que haces referencia en ConductorPedido
-    private Long idPedido;
+    @Column(name = "id", nullable = false)
+    private Long id;
 
     @Column(name = "fecha_pedido", nullable = false)
     private LocalDate fechaPedido;
 
-    // Otros campos relevantes
+    @Column(name = "fecha_entrega_deseada", nullable = false)
+    private LocalDate fechaEntregaDeseada;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_cliente", referencedColumnName = "id", nullable = false)
+    private Cliente cliente;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_conductor", referencedColumnName = "id", nullable = false)
+    private Conductor conductor;
 }

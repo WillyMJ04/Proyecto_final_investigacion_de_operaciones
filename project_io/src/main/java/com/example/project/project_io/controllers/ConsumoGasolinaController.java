@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity; // Import agregado
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,28 +21,31 @@ public class ConsumoGasolinaController {
     private ConsumoGasolinaService consumoGasolinaService;
 
     @PostMapping
-    public String save(@Valid @RequestBody ConsumoGasolinaVO vO) {
-        return consumoGasolinaService.save(vO).toString();
+    public ResponseEntity<String> save(@Valid @RequestBody ConsumoGasolinaVO vO) { // Cambiado a ResponseEntity
+        return ResponseEntity.ok(consumoGasolinaService.save(vO).toString()); // Cambiado a ResponseEntity
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@Valid @NotNull @PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@Valid @NotNull @PathVariable("id") Long id) { // Cambiado a ResponseEntity
         consumoGasolinaService.delete(id);
+        return ResponseEntity.noContent().build(); // Cambiado a ResponseEntity
     }
 
     @PutMapping("/{id}")
-    public void update(@Valid @NotNull @PathVariable("id") Long id,
-                       @Valid @RequestBody ConsumoGasolinaVO vO) {
+    public ResponseEntity<Void> update(@Valid @NotNull @PathVariable("id") Long id,
+                                        @Valid @RequestBody ConsumoGasolinaVO vO) { // Cambiado a ResponseEntity
         consumoGasolinaService.update(id, vO);
+        return ResponseEntity.noContent().build(); // Cambiado a ResponseEntity
     }
 
     @GetMapping("/{id}")
-    public ConsumoGasolinaDTO getById(@Valid @NotNull @PathVariable("id") Long id) {
-        return consumoGasolinaService.getById(id);
+    public ResponseEntity<ConsumoGasolinaDTO> getById(@Valid @NotNull @PathVariable("id") Long id) { // Cambiado a ResponseEntity
+        ConsumoGasolinaDTO consumoGasolina = consumoGasolinaService.getById(id);
+        return ResponseEntity.ok(consumoGasolina); // Cambiado a ResponseEntity
     }
 
     @GetMapping
-    public Page<ConsumoGasolinaDTO> query(Pageable pageable) {
-        return consumoGasolinaService.query(pageable);
+    public ResponseEntity<Page<ConsumoGasolinaDTO>> query(Pageable pageable) { // Cambiado a ResponseEntity
+        return ResponseEntity.ok(consumoGasolinaService.query(pageable)); // Cambiado a ResponseEntity
     }
 }

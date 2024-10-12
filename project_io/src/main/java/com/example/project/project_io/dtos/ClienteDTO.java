@@ -9,7 +9,7 @@ public class ClienteDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull
-    private Long idCliente;
+    private Long idCliente;  // Coincide con la base de datos
 
     @NotNull
     private String nombre;

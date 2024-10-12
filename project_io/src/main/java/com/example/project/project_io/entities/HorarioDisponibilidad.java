@@ -1,5 +1,4 @@
 package com.example.project.project_io.entities;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -30,6 +29,6 @@ public class HorarioDisponibilidad implements Serializable {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_cliente", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "id_cliente", referencedColumnName = "id", nullable = false)  // Corregido el nombre de la columna
     private Cliente cliente;
 }

@@ -1,12 +1,13 @@
 package com.example.project.project_io.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.Duration;
 
 @Data
 @Entity
@@ -17,32 +18,35 @@ public class RutaGoogleMaps implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id_ruta_gmaps", nullable = false)
     private Long idRutaGmaps;
 
+    @NotBlank // Asegura que no sea nulo ni vacío
     @Column(name = "coordenadas_origen", nullable = false)
     private String coordenadasOrigen;
 
+    @NotBlank // Asegura que no sea nulo ni vacío
     @Column(name = "coordenadas_destino", nullable = false)
     private String coordenadasDestino;
 
+    @NotNull // Asegura que no sea nulo
+    @Positive(message = "La distancia debe ser mayor que 0") // Asegura que sea positiva
     @Column(name = "distancia", nullable = false)
-    private BigDecimal distancia;
+    private BigDecimal distancia; // Cambiado a BigDecimal para mayor precisión
 
+    @NotNull // Asegura que no sea nulo
+    @Positive(message = "La duración debe ser mayor que 0") // Asegura que sea positiva
     @Column(name = "duracion", nullable = false)
-    private float duracion;
+    private BigDecimal duracion; // Cambiado a BigDecimal para mayor precisión
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_vehiculo", referencedColumnName = "id", nullable = false)
     private Vehiculo vehiculo;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_conductor", referencedColumnName = "id", nullable = false)
     private Conductor conductor;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_ruta", referencedColumnName = "id", nullable = false)
     private Ruta ruta;

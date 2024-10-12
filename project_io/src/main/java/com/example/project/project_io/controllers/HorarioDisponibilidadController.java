@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity; // Import agregado
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,28 +21,31 @@ public class HorarioDisponibilidadController {
     private HorarioDisponibilidadService horarioDisponibilidadService;
 
     @PostMapping
-    public String save(@Valid @RequestBody HorarioDisponibilidadVO vO) {
-        return horarioDisponibilidadService.save(vO).toString();
+    public ResponseEntity<String> save(@Valid @RequestBody HorarioDisponibilidadVO vO) { // Cambiado a ResponseEntity
+        return ResponseEntity.ok(horarioDisponibilidadService.save(vO).toString()); // Cambiado a ResponseEntity
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@Valid @NotNull @PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@Valid @NotNull @PathVariable("id") Long id) { // Cambiado a ResponseEntity
         horarioDisponibilidadService.delete(id);
+        return ResponseEntity.noContent().build(); // Cambiado a ResponseEntity
     }
 
     @PutMapping("/{id}")
-    public void update(@Valid @NotNull @PathVariable("id") Long id,
-                       @Valid @RequestBody HorarioDisponibilidadVO vO) {
+    public ResponseEntity<Void> update(@Valid @NotNull @PathVariable("id") Long id,
+                                        @Valid @RequestBody HorarioDisponibilidadVO vO) { // Cambiado a ResponseEntity
         horarioDisponibilidadService.update(id, vO);
+        return ResponseEntity.noContent().build(); // Cambiado a ResponseEntity
     }
 
     @GetMapping("/{id}")
-    public HorarioDisponibilidadDTO getById(@Valid @NotNull @PathVariable("id") Long id) {
-        return horarioDisponibilidadService.getById(id);
+    public ResponseEntity<HorarioDisponibilidadDTO> getById(@Valid @NotNull @PathVariable("id") Long id) { // Cambiado a ResponseEntity
+        HorarioDisponibilidadDTO horarioDisponibilidad = horarioDisponibilidadService.getById(id);
+        return ResponseEntity.ok(horarioDisponibilidad); // Cambiado a ResponseEntity
     }
 
     @GetMapping
-    public Page<HorarioDisponibilidadDTO> query(Pageable pageable) {
-        return horarioDisponibilidadService.query(pageable);
+    public ResponseEntity<Page<HorarioDisponibilidadDTO>> query(Pageable pageable) { // Cambiado a ResponseEntity
+        return ResponseEntity.ok(horarioDisponibilidadService.query(pageable)); // Cambiado a ResponseEntity
     }
 }

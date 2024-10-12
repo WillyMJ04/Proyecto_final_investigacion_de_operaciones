@@ -6,10 +6,9 @@ import com.example.project.project_io.entities.Cliente;
 import com.example.project.project_io.repository.ClienteRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -52,9 +51,10 @@ public class ClienteService {
                 .orElseThrow(() -> new IllegalArgumentException("Cliente no encontrado"));
     }
 
-    // Método para obtener todos los clientes con paginación
-    public Page<ClienteDTO> query(Pageable pageable) {
-        return clienteRepository.findAll(pageable)
-                .map(cliente -> modelMapper.map(cliente, ClienteDTO.class));
-    }
+   public List<ClienteDTO> getAllClientes() {
+    return clienteRepository.findAll()
+            .stream()
+            .map(cliente -> modelMapper.map(cliente, ClienteDTO.class))
+            .toList();
+}
 }

@@ -26,7 +26,7 @@ public class PedidoService {
     public Long save(@Valid PedidoVO vO) {
         Pedido pedido = modelMapper.map(vO, Pedido.class);
         pedido = pedidoRepository.save(pedido);
-        return pedido.getIdPedido();
+        return pedido.getId();
     }
 
     // Método para eliminar un pedido por ID

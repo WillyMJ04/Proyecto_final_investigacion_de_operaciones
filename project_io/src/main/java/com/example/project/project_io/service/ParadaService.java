@@ -26,7 +26,7 @@ public class ParadaService {
     public Long save(@Valid ParadaVO vO) {
         Parada parada = modelMapper.map(vO, Parada.class);
         parada = paradaRepository.save(parada);
-        return parada.getIdParada();
+        return parada.getId();
     }
 
     // Método para eliminar una parada por ID

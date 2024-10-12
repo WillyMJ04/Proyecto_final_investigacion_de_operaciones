@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity; // Import agregado
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,33 +21,36 @@ public class RolesController {
     private RolesService rolesService;
 
     @PostMapping
-    public String save(@Valid @RequestBody RolesVO vO) {
-        return rolesService.save(vO).toString();
+    public ResponseEntity<String> save(@Valid @RequestBody RolesVO vO) { // Cambiado a ResponseEntity
+        return ResponseEntity.ok(rolesService.save(vO).toString()); // Cambiado a ResponseEntity
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@Valid @NotNull @PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@Valid @NotNull @PathVariable("id") Long id) { // Cambiado a ResponseEntity
         rolesService.delete(id);
+        return ResponseEntity.noContent().build(); // Cambiado a ResponseEntity
     }
 
     @PutMapping("/{id}")
-    public void update(@Valid @NotNull @PathVariable("id") Long id,
-                       @Valid @RequestBody RolesVO vO) {
+    public ResponseEntity<Void> update(@Valid @NotNull @PathVariable("id") Long id,
+                                        @Valid @RequestBody RolesVO vO) { // Cambiado a ResponseEntity
         rolesService.update(id, vO);
+        return ResponseEntity.noContent().build(); // Cambiado a ResponseEntity
     }
 
     @GetMapping("/{id}")
-    public RolesDTO getById(@Valid @NotNull @PathVariable("id") Long id) {
-        return rolesService.getById(id);
+    public ResponseEntity<RolesDTO> getById(@Valid @NotNull @PathVariable("id") Long id) { // Cambiado a ResponseEntity
+        RolesDTO role = rolesService.getById(id);
+        return ResponseEntity.ok(role); // Cambiado a ResponseEntity
     }
 
     @GetMapping
-    public Page<RolesDTO> query(Pageable pageable) {
-        return rolesService.query(pageable);
+    public ResponseEntity<Page<RolesDTO>> query(Pageable pageable) { // Cambiado a ResponseEntity
+        return ResponseEntity.ok(rolesService.query(pageable)); // Cambiado a ResponseEntity
     }
 
     @GetMapping("/buscar-por-nombre")
-    public RolesDTO findByNombre(@RequestParam String nombre) {
-        return rolesService.findByNombre(nombre);
+    public ResponseEntity<RolesDTO> findByNombre(@RequestParam String nombre) { // Cambiado a ResponseEntity
+        return ResponseEntity.ok(rolesService.findByNombre(nombre)); // Cambiado a ResponseEntity
     }
 }

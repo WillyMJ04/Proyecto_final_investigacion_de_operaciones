@@ -25,7 +25,7 @@ public class RutaService {
     public Long save(RutaVO vO) {
         Ruta ruta = modelMapper.map(vO, Ruta.class);
         ruta = rutaRepository.save(ruta);
-        return ruta.getIdRuta();
+        return ruta.getId();
     }
 
     // Método para eliminar una ruta por ID

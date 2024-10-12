@@ -18,6 +18,6 @@ public class Administrador implements Serializable {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_usuario", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id", nullable = false)  // Corrección en el nombre de la columna
     private Usuario usuario;
 }

@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity; // Import agregado
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,33 +21,36 @@ public class ConductorController {
     private ConductorService conductorService;
 
     @PostMapping
-    public String save(@Valid @RequestBody ConductorVO vO) {
-        return conductorService.save(vO).toString();
+    public ResponseEntity<String> save(@Valid @RequestBody ConductorVO vO) { // Cambiado a ResponseEntity
+        return ResponseEntity.ok(conductorService.save(vO).toString()); // Cambiado a ResponseEntity
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@Valid @NotNull @PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@Valid @NotNull @PathVariable("id") Long id) { // Cambiado a ResponseEntity
         conductorService.delete(id);
+        return ResponseEntity.noContent().build(); // Cambiado a ResponseEntity
     }
 
     @PutMapping("/{id}")
-    public void update(@Valid @NotNull @PathVariable("id") Long id,
-                       @Valid @RequestBody ConductorVO vO) {
+    public ResponseEntity<Void> update(@Valid @NotNull @PathVariable("id") Long id,
+                                        @Valid @RequestBody ConductorVO vO) { // Cambiado a ResponseEntity
         conductorService.update(id, vO);
+        return ResponseEntity.noContent().build(); // Cambiado a ResponseEntity
     }
 
     @GetMapping("/{id}")
-    public ConductorDTO getById(@Valid @NotNull @PathVariable("id") Long id) {
-        return conductorService.getById(id);
+    public ResponseEntity<ConductorDTO> getById(@Valid @NotNull @PathVariable("id") Long id) { // Cambiado a ResponseEntity
+        ConductorDTO conductor = conductorService.getById(id);
+        return ResponseEntity.ok(conductor); // Cambiado a ResponseEntity
     }
 
     @GetMapping
-    public Page<ConductorDTO> query(Pageable pageable) {
-        return conductorService.query(pageable);
+    public ResponseEntity<Page<ConductorDTO>> query(Pageable pageable) { // Cambiado a ResponseEntity
+        return ResponseEntity.ok(conductorService.query(pageable)); // Cambiado a ResponseEntity
     }
 
     @GetMapping("/buscar-por-documento")
-    public ConductorDTO findByNumeroDocumento(@RequestParam String numeroDocumento) {
-        return conductorService.findByNumeroDocumento(numeroDocumento);
+    public ResponseEntity<ConductorDTO> findByNumeroDocumento(@RequestParam String numeroDocumento) { // Cambiado a ResponseEntity
+        return ResponseEntity.ok(conductorService.findByNumeroDocumento(numeroDocumento)); // Cambiado a ResponseEntity
     }
 }

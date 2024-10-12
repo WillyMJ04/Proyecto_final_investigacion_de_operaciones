@@ -1,7 +1,9 @@
 package com.example.project.project_io.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -19,34 +21,26 @@ public class Ruta implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long idRuta;
+    private Long id;
 
+    @NotNull // Asegura que no sea nulo
     @Column(name = "fecha_ruta", nullable = false)
     private LocalDate fechaRuta;
 
+    @NotNull // Asegura que no sea nulo
     @Column(name = "hora_inicio", nullable = false)
     private LocalTime horaInicio;
 
     @Column(name = "hora_fin")
     private LocalTime horaFin;
 
+    @Min(value = 0, message = "El kilometraje debe ser mayor o igual a 0") // Evita valores negativos
     @Column(name = "kilometraje_recorrido")
-    private BigDecimal kilometrajeRecorrido;
+    private Double kilometrajeRecorrido;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_conductor", referencedColumnName = "id", nullable = false)
     private Conductor conductor;
-
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_vehiculo", referencedColumnName = "id", nullable = false)
-    private Vehiculo vehiculo;
-
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "estado_id", referencedColumnName = "id", nullable = false)
-    private Estados estado;
 
     @Column(name = "coordenadas_inicio")
     private String coordenadasInicio;
@@ -54,8 +48,9 @@ public class Ruta implements Serializable {
     @Column(name = "coordenadas_fin")
     private String coordenadasFin;
 
+    @Positive(message = "La distancia debe ser mayor que 0") // Asegura que la distancia sea positiva
     @Column(name = "distancia")
-    private BigDecimal distancia;
+    private Double distancia;
 
     @Column(name = "tiempo_estimado")
     private LocalTime tiempoEstimado;

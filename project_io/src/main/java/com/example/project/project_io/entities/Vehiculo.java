@@ -1,9 +1,7 @@
 package com.example.project.project_io.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -31,14 +29,11 @@ public class Vehiculo implements Serializable {
     @Column(name = "disponibilidad_horaria")
     private String disponibilidadHoraria;
 
-
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tipo_vehiculo_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "tipo_vehiculo_id", referencedColumnName = "id_tipo_vehiculo", nullable = false)
     private TipoVehiculo tipoVehiculo;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tipo_licencia_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "tipo_licencia_id", referencedColumnName = "id_tipo_licencia", nullable = false)
     private TipoLicencia tipoLicencia;
 }

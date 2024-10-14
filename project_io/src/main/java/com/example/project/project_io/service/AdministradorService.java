@@ -1,18 +1,17 @@
 package com.example.project.project_io.service;
 
 import com.example.project.project_io.dtos.AdministradorDTO;
-import com.example.project.project_io.vo.AdministradorUpdateVO;
-import com.example.project.project_io.vo.AdministradorVO;
 import com.example.project.project_io.entities.Administrador;
 import com.example.project.project_io.repository.AdministradorRepository;
-import jakarta.validation.Valid;
+import com.example.project.project_io.vo.AdministradorVO;
+import com.example.project.project_io.vo.AdministradorUpdateVO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AdministradorService {
@@ -36,11 +35,11 @@ public class AdministradorService {
     }
 
     // Método para actualizar un administrador
-    public void update(Long id, @Valid AdministradorUpdateVO vO) {
+    public void update(Long id, AdministradorUpdateVO vO) {
         Optional<Administrador> administradorOptional = administradorRepository.findById(id);
         if (administradorOptional.isPresent()) {
             Administrador administrador = administradorOptional.get();
-            modelMapper.map(vO, administrador);  // Actualiza los campos del administrador con los datos del VO
+            modelMapper.map(vO, administrador);
             administradorRepository.save(administrador);
         } else {
             throw new IllegalArgumentException("Administrador no encontrado");
@@ -51,12 +50,14 @@ public class AdministradorService {
     public AdministradorDTO getById(Long id) {
         Optional<Administrador> administradorOptional = administradorRepository.findById(id);
         return administradorOptional.map(administrador -> modelMapper.map(administrador, AdministradorDTO.class))
-                                    .orElseThrow(() -> new IllegalArgumentException("Administrador no encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException("Administrador no encontrado"));
     }
 
-    // Método para obtener todos los administradores con paginación
-    public Page<AdministradorDTO> query(Pageable pageable) {
-        return administradorRepository.findAll(pageable)
-                .map(administrador -> modelMapper.map(administrador, AdministradorDTO.class));
+    // Método para obtener todos los administradores sin paginación
+    public List<AdministradorDTO> getAllAdministradores() {
+        return administradorRepository.findAll()
+                .stream()
+                .map(administrador -> modelMapper.map(administrador, AdministradorDTO.class))
+                .collect(Collectors.toList());
     }
 }
